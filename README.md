@@ -82,6 +82,6 @@ npm run check
 
 ## 许可证
 
-本项目源码以 [MIT 许可证](LICENSE) 开源，版权所有 © 2026 Mubai Tang。
+本项目源码以 [MIT 许可证](LICENSE) 开源，版权所有 © 2026 sj-tu.com。
 
 内置的验证码识别模型（`common.onnx`，源自 ddddocr）及 onnxruntime-web 等运行时依赖遵循各自的许可证，详见 [THIRD_PARTY_NOTICES.txt](extension/THIRD_PARTY_NOTICES.txt)。
