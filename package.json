@@ -1,0 +1,18 @@
+{
+  "name": "sjtu-login-addon",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "Self-contained Chromium extension for filling SJTU jAccount captchas.",
+  "scripts": {
+    "build": "node build.mjs",
+    "check": "node --test tests/*.test.mjs",
+    "package": "npm run build && node scripts/package.mjs"
+  },
+  "dependencies": {
+    "onnxruntime-web": "1.27.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.1"
+  }
+}

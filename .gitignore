@@ -1,0 +1,41 @@
+__pycache__/
+*.py[cod]
+.venv/
+node_modules/
+dist/
+release/
+
+# Local credentials and environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*
+secrets*
+
+# Debugging, logs, coverage, and temporary files
+*.log
+*.debug
+*.trace
+coverage/
+.nyc_output/
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+
+# Editors and OS metadata
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local coding-agent state and instructions
+.agents/
+.codex/
+AGENTS.md
+CLAUDE.md

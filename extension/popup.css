@@ -1,0 +1,18 @@
+body {
+  box-sizing: border-box;
+  width: 280px;
+  margin: 0;
+  padding: 16px;
+  color: #202124;
+  font: 14px/1.5 system-ui, sans-serif;
+}
+h1 { margin: 0 0 12px; font-size: 18px; }
+.option { display: block; margin: 8px 0; }
+.option input { margin-right: 6px; }
+.option input:disabled { opacity: 0.55; }
+p { margin: 12px 0; }
+.ok { color: #137333; }
+.error { color: #b3261e; }
+.loading { color: #5f6368; }
+.privacy { color: #5f6368; font-size: 12px; }
+button { padding: 6px 10px; cursor: pointer; }

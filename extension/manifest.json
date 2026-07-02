@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "SJTU jAccount 验证码助手",
+  "version": "0.3.0",
+  "description": "在浏览器本地识别并填写 SJTU jAccount 登录验证码。",
+  "minimum_chrome_version": "103",
+  "permissions": ["storage"],
+  "host_permissions": ["https://jaccount.sjtu.edu.cn/*"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  },
+  "icons": {
+    "16": "icon-16.png",
+    "32": "icon-32.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png"
+  },
+  "action": {
+    "default_title": "jAccount 验证码助手",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon-16.png",
+      "32": "icon-32.png",
+      "48": "icon-48.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://jaccount.sjtu.edu.cn/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

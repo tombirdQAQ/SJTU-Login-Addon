@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="popup.css">
+    <title>jAccount 验证码助手</title>
+  </head>
+  <body>
+    <h1>验证码助手</h1>
+    <label class="option">
+      <input id="enabled" type="checkbox">
+      自动填写验证码
+    </label>
+    <label class="option">
+      <input id="auto-login" type="checkbox">
+      自动登录
+    </label>
+    <p id="status" class="loading">正在加载本地 OCR 模型…</p>
+    <button id="retry" type="button" hidden>重试加载</button>
+    <p class="privacy">
+      验证码仅在本机处理。自动登录默认关闭，每页最多尝试三次。
+    </p>
+    <script src="popup.js"></script>
+  </body>
+</html>
