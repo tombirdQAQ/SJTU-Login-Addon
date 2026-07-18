@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="SJTU jAccount 验证码助手：在浏览器本地识别并自动填写交大 jAccount 登录验证码，可选加密自动登录，数据全程不出本机。已上架 Microsoft Edge 外接程序商店。"
+    >
+    <meta name="color-scheme" content="light dark">
+    <meta property="og:title" content="SJTU jAccount 验证码助手">
+    <meta
+      property="og:description"
+      content="本地识别并自动填写 jAccount 验证码，可选自动登录，数据不出本机。"
+    >
+    <title>SJTU jAccount 验证码助手 · 本地识别，自动登录</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAFVElEQVR4nO3df0zUdRzH8dcdvyEQCBKUwUpy/lyzcFltzeUf/U5Xc/7RzLQ/+iPXDweba61aRUtztlZz1FrZL0u3bP3YmDaRCi1tNKAxj9EgDQwpD/l9d3Bd+x7CUIG+x/fgPp/P+/XYHDi+92N7P+/zPe775c6FKNiFRaFoXA9FphQeFxya9hVw6GbEEPGFOHizQrC9MQdvZghuOxtx+PqxO7MpK+HgzV8NJl0BOHxzTDXLCQPg8M0z2UxtPQcgc10RAB/95ppotpcEwOGb7/IZcxcg3FgAfPTLMX7WXAGECwfAR788ozPnCiAcAxDOxeVfNq4AwjEA4RiAcAxAOAYgHAMQLj7Wd0AlNz2zCbc8/wSSMtMjutxQ3wDqKz7H92WvQzd8HeCitPxcPN5WDZd7+ovipzdvQMfJBuiEu4CLrpo/19HwLRmF+dANAxCOAQjHAIRjAMIxAOEYgHAMQDgGIBwDEI4BCMcAhGMAwjEA4RiAcAxAOAYgHAMQjgEIxwCEYwDCMQDhGIBwDEA4BiAcAxCOAQjHAIRjAMIxAOEYgHAMQDgGIBwDEI4BCMcAhGMAwjEA4RiAcAwgikIhW5/XrBQt3inUHR+HlNxspF5zNVJzs8JfR/6fPfZ15Gcj37vi4tDw7gFUb3ttVu9naDgI3SgdQHxKMu79bBcW3Lc6PNRI3/a1+eB3aK+ptR2ZU8HAEHSj9C5g6aZ1KF67JuLhj8q6vsj2tnGJCXAqGAhAN0oHkJaX4+jySVkZtrdNSEuFU0E/V4CoGh70zVpAKTmZcMrnvQDdKL0CDA04CyCzuCiiN4t2avAfBhBVA53nHV1+7o1LZuT5woRCIQyeZwBR1X+209HlM4rmIXvRdba2zVu53NFt9Z3tRCio36+BSu8CLrS0Ob6OlWVb/nebOdcWIGf5Qke3421qhY6UDqCv/Rx83m5H17Fsy0NYsvGBSX/ucruxevd2OOX1MIAZ0Vl3yvF13P3RDtz5fjnm3boCSXPSEZeUiPSCPCxcfxc2/PAxitetcXwbHb/8Bh0p/Uqg5UzVCRTescrx9Szb/GD430z5s+pn6EjpXYDl9OFjUJ3X04KeM39BR8oHYC2tXc2nobL6iv3QlfIBWBo/OAhVDfUPonHvl9CVFgFYH8oY6OmDihre2Q9/dy90pUUAvq4e1L7xIVTT29aB4y++DZ1pEYDl5I73lHsuULX1FQR6+6EzbQKwjgwe2vws/h0ahgpqd+/F718dge60CcDSfuxXVD1ZHuu7gaYDlagu3QkTaBXA6BPCmufejNntN39xGJWPbA8f/TOBdgFYTpRX4MjWl2d3dxAK4fgLb+Hr9U8j6Nfv1C8jPz4+f9UNuOeTnchcUDijt+NtasXRp17FH4dqYBqtA7BYB3ZKtj2KkrLHkBzBOYB2+Lzd+OmlPajbs0+ZJ5/Rpn0AoxJSk7F441osfvh+zL9tRfgw73QE/QG0Vv6IU/u+Rcs3RzHs88NkxgQwnvXHIgW3l4TP8slZWhw+M8g6QTQ+LRXxyYkY9gUQ6O6Fv6cP/q6e8BL/d70HnXUenKttVPZVx5lgZABk+G8BFD0MQDgGIBwDEI4BCMcAhGMAwjEA4RiAcAxAOAYgHAMQjgEIxwCEYwDCMQDhGIBwDEA4dyk8rljfCYoNa/ZcAYRjAMKFA+BuQJ7RmXMFEG4sAK4CcoyfNVcA4S4JgKuA+S6f8RUrACMw10Sz5S5AuAkD4CpgnslmOukKwAjMMdUsbR0H4J+Q68nOg9jWcwCuBvqxO7OIjwRyNVBbpA/WaR8KZghqme4qHZVzARhDbERj1/wf5NBlafrOdBIAAAAASUVORK5CYII="
+    >
+    <link rel="icon" type="image/png" href="./icon-128.png">
+    <style>
+      :root {
+        color-scheme: light dark;
+        --background: #f5f7fb;
+        --surface: #ffffff;
+        --text: #172033;
+        --muted: #5e687b;
+        --border: #dce1ea;
+        --accent: #7a1f2b;
+        --accent-strong: #641823;
+        --accent-soft: #f8e9ec;
+        --accent-contrast: #ffffff;
+        --success: #146c43;
+        --shadow: 0 18px 50px rgb(23 32 51 / 8%);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --background: #11151d;
+          --surface: #191f2a;
+          --text: #eef2f8;
+          --muted: #adb6c7;
+          --border: #303847;
+          --accent: #f08a98;
+          --accent-strong: #f4a4af;
+          --accent-soft: #3a2026;
+          --accent-contrast: #1c0e11;
+          --success: #6fd4a3;
+          --shadow: 0 18px 50px rgb(0 0 0 / 25%);
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--background);
+        color: var(--text);
+        font-family:
+          Inter, "Noto Sans SC", "Microsoft YaHei", system-ui, -apple-system,
+          BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 16px;
+        line-height: 1.75;
+      }
+
+      a {
+        color: var(--accent);
+        text-underline-offset: 0.2em;
+      }
+
+      .wrap {
+        width: min(100% - 32px, 1020px);
+        margin: 0 auto;
+      }
+
+      /* Hero */
+      .hero {
+        padding: clamp(56px, 10vw, 110px) 0 clamp(40px, 6vw, 72px);
+        text-align: center;
+        background:
+          radial-gradient(
+            ellipse at 50% -20%,
+            var(--accent-soft),
+            transparent 62%
+          ),
+          var(--background);
+      }
+
+      .hero img.logo {
+        width: 88px;
+        height: 88px;
+        border-radius: 22px;
+        box-shadow: var(--shadow);
+      }
+
+      .hero h1 {
+        margin: 22px 0 0;
+        font-size: clamp(2rem, 6vw, 3.3rem);
+        line-height: 1.15;
+        letter-spacing: -0.035em;
+      }
+
+      .hero .tagline {
+        max-width: 620px;
+        margin: 16px auto 0;
+        color: var(--muted);
+        font-size: clamp(1.02rem, 2.4vw, 1.22rem);
+      }
+
+      .hero .tagline strong {
+        color: var(--text);
+      }
+
+      .badges {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 22px;
+      }
+
+      .badges span {
+        padding: 4px 12px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--surface);
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .cta {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+        margin-top: 34px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 13px 26px;
+        border-radius: 12px;
+        font-size: 1.02rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: transform 0.12s ease, box-shadow 0.12s ease;
+      }
+
+      .button:hover {
+        transform: translateY(-2px);
+      }
+
+      .button.primary {
+        background: var(--accent);
+        color: var(--accent-contrast);
+        box-shadow: 0 10px 28px color-mix(in srgb, var(--accent) 35%, transparent);
+      }
+
+      .button.primary:hover {
+        background: var(--accent-strong);
+      }
+
+      .button.secondary {
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text);
+      }
+
+      .button.secondary:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .button svg {
+        flex: none;
+      }
+
+      .cta-note {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      /* Sections */
+      section {
+        padding: clamp(44px, 7vw, 76px) 0;
+      }
+
+      section + section {
+        border-top: 1px solid var(--border);
+      }
+
+      .section-head {
+        max-width: 640px;
+        margin: 0 auto 38px;
+        text-align: center;
+      }
+
+      .eyebrow {
+        margin: 0 0 8px;
+        color: var(--accent);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: clamp(1.5rem, 4vw, 2.1rem);
+        line-height: 1.25;
+        letter-spacing: -0.02em;
+      }
+
+      .section-head p {
+        margin: 12px 0 0;
+        color: var(--muted);
+      }
+
+      /* Feature grid */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 18px;
+      }
+
+      .card {
+        padding: 26px 24px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: var(--surface);
+      }
+
+      .card .icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        margin-bottom: 14px;
+        border-radius: 12px;
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+
+      .card h3 {
+        margin: 0 0 8px;
+        font-size: 1.08rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+
+      /* Steps */
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 18px;
+        counter-reset: step;
+      }
+
+      .step {
+        position: relative;
+        padding: 26px 24px 24px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: var(--surface);
+      }
+
+      .step::before {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        margin-bottom: 12px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: var(--accent-contrast);
+        content: counter(step);
+        counter-increment: step;
+        font-weight: 700;
+      }
+
+      .step h3 {
+        margin: 0 0 8px;
+        font-size: 1.05rem;
+      }
+
+      .step p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+
+      /* Privacy banner */
+      .privacy-banner {
+        padding: clamp(30px, 5vw, 46px) clamp(24px, 5vw, 48px);
+        border: 1px solid color-mix(in srgb, var(--success) 35%, var(--border));
+        border-left: 5px solid var(--success);
+        border-radius: 18px;
+        background: color-mix(in srgb, var(--success) 7%, var(--surface));
+      }
+
+      .privacy-banner h2 {
+        font-size: clamp(1.3rem, 3.4vw, 1.7rem);
+      }
+
+      .privacy-banner p {
+        max-width: 760px;
+        margin: 12px 0 0;
+        color: var(--muted);
+      }
+
+      .privacy-banner ul {
+        margin: 14px 0 18px;
+        padding-left: 1.35rem;
+        color: var(--muted);
+      }
+
+      .privacy-banner li + li {
+        margin-top: 6px;
+      }
+
+      .privacy-banner strong {
+        color: var(--success);
+      }
+
+      /* Install */
+      .install-cols {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 18px;
+      }
+
+      .install-cols .card h3 {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.12rem;
+      }
+
+      .pill {
+        padding: 2px 10px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+
+      .install-cols ol {
+        margin: 12px 0 0;
+        padding-left: 1.3rem;
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+
+      .install-cols li + li {
+        margin-top: 6px;
+      }
+
+      code {
+        padding: 0.12em 0.36em;
+        border-radius: 5px;
+        background: var(--accent-soft);
+        color: var(--text);
+        font-family: "Cascadia Code", Consolas, monospace;
+        font-size: 0.9em;
+      }
+
+      /* FAQ */
+      details {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: var(--surface);
+      }
+
+      details + details {
+        margin-top: 12px;
+      }
+
+      summary {
+        padding: 16px 20px;
+        cursor: pointer;
+        font-weight: 600;
+        list-style-position: inside;
+      }
+
+      details p {
+        margin: 0;
+        padding: 0 20px 18px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      /* Footer */
+      footer {
+        padding: 34px 0 44px;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 0.88rem;
+        text-align: center;
+      }
+
+      footer nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px 22px;
+        margin-bottom: 14px;
+      }
+
+      footer a {
+        color: var(--muted);
+      }
+
+      footer a:hover {
+        color: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="wrap">
+        <img
+          class="logo"
+          srcset="./icon-128.png"
+          alt="SJTU jAccount 验证码助手图标"
+          width="88"
+          height="88"
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAFVElEQVR4nO3df0zUdRzH8dcdvyEQCBKUwUpy/lyzcFltzeUf/U5Xc/7RzLQ/+iPXDweba61aRUtztlZz1FrZL0u3bP3YmDaRCi1tNKAxj9EgDQwpD/l9d3Bd+x7CUIG+x/fgPp/P+/XYHDi+92N7P+/zPe775c6FKNiFRaFoXA9FphQeFxya9hVw6GbEEPGFOHizQrC9MQdvZghuOxtx+PqxO7MpK+HgzV8NJl0BOHxzTDXLCQPg8M0z2UxtPQcgc10RAB/95ppotpcEwOGb7/IZcxcg3FgAfPTLMX7WXAGECwfAR788ozPnCiAcAxDOxeVfNq4AwjEA4RiAcAxAOAYgHAMQLj7Wd0AlNz2zCbc8/wSSMtMjutxQ3wDqKz7H92WvQzd8HeCitPxcPN5WDZd7+ovipzdvQMfJBuiEu4CLrpo/19HwLRmF+dANAxCOAQjHAIRjAMIxAOEYgHAMQDgGIBwDEI4BCMcAhGMAwjEA4RiAcAxAOAYgHAMQjgEIxwCEYwDCMQDhGIBwDEA4BiAcAxCOAQjHAIRjAMIxAOEYgHAMQDgGIBwDEI4BCMcAhGMAwjEA4RiAcAwgikIhW5/XrBQt3inUHR+HlNxspF5zNVJzs8JfR/6fPfZ15Gcj37vi4tDw7gFUb3ttVu9naDgI3SgdQHxKMu79bBcW3Lc6PNRI3/a1+eB3aK+ptR2ZU8HAEHSj9C5g6aZ1KF67JuLhj8q6vsj2tnGJCXAqGAhAN0oHkJaX4+jySVkZtrdNSEuFU0E/V4CoGh70zVpAKTmZcMrnvQDdKL0CDA04CyCzuCiiN4t2avAfBhBVA53nHV1+7o1LZuT5woRCIQyeZwBR1X+209HlM4rmIXvRdba2zVu53NFt9Z3tRCio36+BSu8CLrS0Ob6OlWVb/nebOdcWIGf5Qke3421qhY6UDqCv/Rx83m5H17Fsy0NYsvGBSX/ucruxevd2OOX1MIAZ0Vl3yvF13P3RDtz5fjnm3boCSXPSEZeUiPSCPCxcfxc2/PAxitetcXwbHb/8Bh0p/Uqg5UzVCRTescrx9Szb/GD430z5s+pn6EjpXYDl9OFjUJ3X04KeM39BR8oHYC2tXc2nobL6iv3QlfIBWBo/OAhVDfUPonHvl9CVFgFYH8oY6OmDihre2Q9/dy90pUUAvq4e1L7xIVTT29aB4y++DZ1pEYDl5I73lHsuULX1FQR6+6EzbQKwjgwe2vws/h0ahgpqd+/F718dge60CcDSfuxXVD1ZHuu7gaYDlagu3QkTaBXA6BPCmufejNntN39xGJWPbA8f/TOBdgFYTpRX4MjWl2d3dxAK4fgLb+Hr9U8j6Nfv1C8jPz4+f9UNuOeTnchcUDijt+NtasXRp17FH4dqYBqtA7BYB3ZKtj2KkrLHkBzBOYB2+Lzd+OmlPajbs0+ZJ5/Rpn0AoxJSk7F441osfvh+zL9tRfgw73QE/QG0Vv6IU/u+Rcs3RzHs88NkxgQwnvXHIgW3l4TP8slZWhw+M8g6QTQ+LRXxyYkY9gUQ6O6Fv6cP/q6e8BL/d70HnXUenKttVPZVx5lgZABk+G8BFD0MQDgGIBwDEI4BCMcAhGMAwjEA4RiAcAxAOAYgHAMQjgEIxwCEYwDCMQDhGIBwDEA4dyk8rljfCYoNa/ZcAYRjAMKFA+BuQJ7RmXMFEG4sAK4CcoyfNVcA4S4JgKuA+S6f8RUrACMw10Sz5S5AuAkD4CpgnslmOukKwAjMMdUsbR0H4J+Q68nOg9jWcwCuBvqxO7OIjwRyNVBbpA/WaR8KZghqme4qHZVzARhDbERj1/wf5NBlafrOdBIAAAAASUVORK5CYII="
+        >
+        <h1>SJTU jAccount 验证码助手</h1>
+        <p class="tagline">
+          打开交大 jAccount 登录页,验证码<strong>自动识别、自动填写</strong>。
+          识别在<strong>浏览器本地</strong>完成,搭配可选自动登录,
+          打开页面即完成登录——<strong>数据全程不出本机</strong>。
+        </p>
+        <div class="badges">
+          <span>✔ 已上架 Edge 商店</span>
+          <span>开源 · MIT</span>
+          <span>Manifest V3</span>
+          <span>本地 ONNX 推理</span>
+          <span>零数据上传</span>
+        </div>
+        <div class="cta">
+          <a
+            class="button primary"
+            href="https://microsoftedge.microsoft.com/addons/detail/sjtu-jaccount-%E9%AA%8C%E8%AF%81%E7%A0%81%E5%8A%A9%E6%89%8B/dgjpildobjblobjjfnbeonlemoghgcmh"
+            rel="noopener noreferrer"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2a10 10 0 1 0 10 10c0-.7-.07-1.38-.2-2.04C20.9 6.06 16.83 3 12 3v-.98Zm0 0C6.48 2 2 6.48 2 12c0 4.6 3.1 8.47 7.33 9.64-1.42-1.02-2.33-2.7-2.33-4.58 0-3.1 2.5-5.62 5.6-5.65h8.9A9.98 9.98 0 0 0 12 2Z" fill="currentColor"/>
+              <path d="M12.6 11.4c-2.6 0-4.7 2.1-4.7 4.7 0 2.98 2.6 5.4 5.9 5.4 2.9 0 6.2-1.66 7.7-4.9-1.3 1-3.2 1.6-4.9 1.6-2.9 0-4.9-1.9-4.9-4.3 0-.9.3-1.8.9-2.5Z" fill="currentColor" opacity="0.65"/>
+            </svg>
+            前往 Edge 商店安装
+          </a>
+          <a
+            class="button secondary"
+            href="https://github.com/tombirdQAQ/SJTU-Login-Addon"
+            rel="noopener noreferrer"
+          >
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.42 7.42 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
+            </svg>
+            GitHub 开源仓库
+          </a>
+        </div>
+        <p class="cta-note">
+          Edge 用户一键安装;Chrome 用户可从
+          <a
+            href="https://github.com/tombirdQAQ/SJTU-Login-Addon/releases/latest"
+            rel="noopener noreferrer"
+          >GitHub Releases</a>
+          下载离线包安装。
+        </p>
+      </div>
+    </header>
+
+    <main>
+      <section id="features">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow">Features</p>
+            <h2>为 jAccount 登录页量身打造</h2>
+            <p>不胜频繁登录还要手输验证码的烦扰?交给它。</p>
+          </div>
+          <div class="grid">
+            <div class="card">
+              <span class="icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="m7 11 2 2 4-5"/><path d="M15 12h3"/></svg>
+              </span>
+              <h3>本地验证码识别</h3>
+              <p>
+                内置 ddddocr 的 ONNX 模型,通过 onnxruntime-web(WASM)在浏览器内推理,验证码图片不离开本机。
+              </p>
+            </div>
+            <div class="card">
+              <span class="icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg>
+              </span>
+              <h3>自动填写</h3>
+              <p>
+                监测登录页验证码出现或刷新,识别完成后自动填入输入框,无需任何手动操作。
+              </p>
+            </div>
+            <div class="card">
+              <span class="icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </span>
+              <h3>可选自动登录</h3>
+              <p>
+                默认关闭。开启后账号密码经 AES-GCM 256 位加密保存在本机,打开登录页自动填充并提交。
+              </p>
+            </div>
+            <div class="card">
+              <span class="icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+              </span>
+              <h3>克制的提交策略</h3>
+              <p>
+                仅当用户名、密码、验证码全部就绪时才延迟 500 ms 提交,每次页面加载最多尝试 3 次,不会无限循环。
+              </p>
+            </div>
+            <div class="card">
+              <span class="icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10Z"/></svg>
+              </span>
+              <h3>最小权限</h3>
+              <p>
+                只申请本地存储权限和 <code>jaccount.sjtu.edu.cn</code> 的站点权限,不访问任何其它网站。
+              </p>
+            </div>
+            <div class="card">
+              <span class="icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg>
+              </span>
+              <h3>完全开源</h3>
+              <p>
+                源码以 MIT 许可证开源,构建与测试校验内置模型 SHA-256,代码与隐私政策公开可查。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="how">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow">How it works</p>
+            <h2>三步告别手输验证码</h2>
+          </div>
+          <div class="steps">
+            <div class="step">
+              <h3>安装扩展</h3>
+              <p>
+                从 Edge 商店一键安装,或用 GitHub Releases 的离线包加载。首次加载本地模型只需几秒。
+              </p>
+            </div>
+            <div class="step">
+              <h3>打开登录页</h3>
+              <p>
+                访问 jAccount 登录页,扩展自动定位验证码图片,在本地识别并填入输入框。
+              </p>
+            </div>
+            <div class="step">
+              <h3>(可选)自动登录</h3>
+              <p>
+                在弹窗中开启自动登录并加密保存账号密码,之后打开登录页即自动完成整个登录流程。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="privacy">
+        <div class="wrap">
+          <div class="privacy-banner">
+            <p class="eyebrow">Privacy first</p>
+            <h2>隐私优先:所有处理都在你的浏览器内完成</h2>
+            <ul>
+              <li>
+                <strong>零上传:</strong>不向开发者、第三方服务或任何外部服务器发送验证码、凭据或使用数据。
+              </li>
+              <li>
+                <strong>加密存储:</strong>保存的账号密码经 AES-GCM 加密后仅存于本机,不可导出的密钥单独保存,可随时一键清除。
+              </li>
+              <li>
+                <strong>无遥测:</strong>不使用分析、广告或遥测服务;扩展不发起任何外部网络请求。
+              </li>
+            </ul>
+            <p>
+              详见完整的
+              <a href="https://privacy.sj-tu.com/sjtu-autologin/" rel="noopener noreferrer">隐私政策</a>,或直接阅读
+              <a href="https://github.com/tombirdQAQ/SJTU-Login-Addon" rel="noopener noreferrer">开源代码</a>。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="install">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow">Install</p>
+            <h2>安装方式</h2>
+          </div>
+          <div class="install-cols">
+            <div class="card">
+              <h3>Microsoft Edge <span class="pill">推荐</span></h3>
+              <ol>
+                <li>
+                  打开
+                  <a
+                    href="https://microsoftedge.microsoft.com/addons/detail/sjtu-jaccount-%E9%AA%8C%E8%AF%81%E7%A0%81%E5%8A%A9%E6%89%8B/dgjpildobjblobjjfnbeonlemoghgcmh"
+                    rel="noopener noreferrer"
+                  >Edge 外接程序商店页面</a>
+                </li>
+                <li>点击「获取」完成安装,后续版本自动更新</li>
+                <li>点击工具栏图标,等待「本地 OCR 模型已就绪」</li>
+              </ol>
+            </div>
+            <div class="card">
+              <h3>Chrome / 其它 Chromium <span class="pill">离线包</span></h3>
+              <ol>
+                <li>
+                  在
+                  <a
+                    href="https://github.com/tombirdQAQ/SJTU-Login-Addon/releases/latest"
+                    rel="noopener noreferrer"
+                  >Releases</a>
+                  下载最新 <code>SJTU-Autologin-&lt;version&gt;.zip</code> 并解压
+                </li>
+                <li>打开 <code>chrome://extensions</code>,开启「开发者模式」</li>
+                <li>点击「加载已解压的扩展程序」,选择解压后的目录</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow">FAQ</p>
+            <h2>常见问题</h2>
+          </div>
+          <details>
+            <summary>我的账号密码安全吗?</summary>
+            <p>
+              自动登录默认关闭。只有你主动开启并保存时,凭据才会经 Web Crypto 的 AES-GCM(256 位)加密后写入浏览器本地存储;加密密钥是不可导出的 CryptoKey,单独存于扩展的 IndexedDB。数据从不离开你的设备,开发者也无法访问。随时可在弹窗中点击「清除」,同时删除密文与密钥。
+            </p>
+          </details>
+          <details>
+            <summary>验证码识别错了怎么办?</summary>
+            <p>
+              页面验证码刷新后扩展会自动重新识别并填写。开启自动登录时,每次页面加载最多自动尝试 3 次,避免识别错误时无限循环;超过次数后你可以手动登录。
+            </p>
+          </details>
+          <details>
+            <summary>为什么扩展需要 WebAssembly(wasm-unsafe-eval)?</summary>
+            <p>
+              它是运行本地 ONNX 验证码识别模型所必需的,属于 Manifest V3 允许的 WASM 例外。所有模型与运行时均随扩展本地分发,不涉及任何远程代码。
+            </p>
+          </details>
+          <details>
+            <summary>会上架 Chrome Web Store 吗?</summary>
+            <p>
+              目前已上架 Microsoft Edge 外接程序商店。Chrome 用户可以使用 GitHub Releases 的离线包安装,后续如上架 Chrome Web Store 会在仓库中公告。
+            </p>
+          </details>
+          <details>
+            <summary>遇到问题或想提建议?</summary>
+            <p>
+              欢迎在 <a href="https://github.com/tombirdQAQ/SJTU-Login-Addon/issues" rel="noopener noreferrer">GitHub Issues</a> 反馈,或发送邮件至 <a href="mailto:admin@sj-tu.com">admin@sj-tu.com</a>。安全漏洞请参阅仓库中的 SECURITY.md 私下报告。
+            </p>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <nav>
+          <a
+            href="https://microsoftedge.microsoft.com/addons/detail/sjtu-jaccount-%E9%AA%8C%E8%AF%81%E7%A0%81%E5%8A%A9%E6%89%8B/dgjpildobjblobjjfnbeonlemoghgcmh"
+            rel="noopener noreferrer"
+          >Edge 商店</a>
+          <a href="https://github.com/tombirdQAQ/SJTU-Login-Addon" rel="noopener noreferrer">GitHub</a>
+          <a href="https://privacy.sj-tu.com/sjtu-autologin/" rel="noopener noreferrer">隐私政策</a>
+          <a href="https://github.com/tombirdQAQ/SJTU-Login-Addon/issues" rel="noopener noreferrer">问题反馈</a>
+          <a href="mailto:admin@sj-tu.com">联系我们</a>
+        </nav>
+        © 2026 sj-tu.com · MIT 许可证开源 · 本页面不使用 Cookie、分析脚本或外部资源 ·
+        本项目为个人开源项目,与上海交通大学无隶属关系
+      </div>
+    </footer>
+  </body>
+</html>

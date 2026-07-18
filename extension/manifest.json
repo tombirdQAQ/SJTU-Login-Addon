@@ -5,7 +5,7 @@
   "version": "0.4.2",
   "description": "__MSG_extensionDescription__",
   "default_locale": "zh_CN",
-  "homepage_url": "https://github.com/tangmubai/SJTU-Login-Addon",
+  "homepage_url": "https://github.com/tombirdQAQ/SJTU-Login-Addon",
   "minimum_chrome_version": "103",
   "permissions": ["storage"],
   "host_permissions": ["https://jaccount.sjtu.edu.cn/*"],

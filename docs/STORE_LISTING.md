@@ -1,5 +1,11 @@
 # 商店上架清单与文案（Chrome Web Store / Edge Add-ons）
 
+> **✅ 已上架 Microsoft Edge Add-ons**（2026-07）：
+> <https://microsoftedge.microsoft.com/addons/detail/sjtu-jaccount-%E9%AA%8C%E8%AF%81%E7%A0%81%E5%8A%A9%E6%89%8B/dgjpildobjblobjjfnbeonlemoghgcmh>
+>
+> 产品官网：<https://jaccount.sj-tu.com>（`product-site/`，Cloudflare Workers 部署）。
+> Chrome Web Store 暂未提交。
+
 这份文档汇总了两个商店提交时需要填写的所有字段，内容可直接复制粘贴。
 提交用的安装包是 `npm run package` 生成的 `release/SJTU-Autologin-<version>.zip`
 （**不要**上传 `.crx`，商店会自行签名）。
@@ -56,7 +62,7 @@ SJTU jAccount 验证码助手
 · 保存的账号密码经加密后仅存于本机，可随时一键清除
 · 完全开源，代码与隐私政策公开可查
 
-开源地址：https://github.com/tangmubai/SJTU-Login-Addon
+开源地址：https://github.com/tombirdQAQ/SJTU-Login-Addon
 ```
 
 ---
