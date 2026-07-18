@@ -1,0 +1,17 @@
+{
+  // 产品官网:Cloudflare Workers 静态站点
+  // 部署:npx wrangler deploy --config product-site/wrangler.jsonc
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sjtu-jaccount-site",
+  "compatibility_date": "2026-07-01",
+  "assets": {
+    "directory": "./public",
+    "not_found_handling": "single-page-application"
+  },
+  "routes": [
+    {
+      "pattern": "jaccount.sj-tu.com",
+      "custom_domain": true
+    }
+  ]
+}

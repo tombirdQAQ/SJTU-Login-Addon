@@ -3,7 +3,7 @@
 ## 支持的版本
 
 安全修复仅针对最新发布版本。请在报告前先确认问题在
-[最新 Release](https://github.com/tangmubai/SJTU-Login-Addon/releases/latest) 上仍可复现。
+[最新 Release](https://github.com/tombirdQAQ/SJTU-Login-Addon/releases/latest) 上仍可复现。
 
 | 版本 | 是否支持 |
 | --- | --- |
@@ -15,7 +15,7 @@
 **请勿公开提交安全漏洞的 issue。** 请通过以下私密渠道报告：
 
 - GitHub 私密漏洞报告（推荐）：仓库 **Security → Report a vulnerability**
-  （<https://github.com/tangmubai/SJTU-Login-Addon/security/advisories/new>）
+  （<https://github.com/tombirdQAQ/SJTU-Login-Addon/security/advisories/new>）
 
 报告时请尽量包含：
 

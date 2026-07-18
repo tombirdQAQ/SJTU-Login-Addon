@@ -1,10 +1,12 @@
 # SJTU jAccount 验证码助手
 
-[![CI](https://github.com/tangmubai/SJTU-Login-Addon/actions/workflows/ci.yml/badge.svg)](https://github.com/tangmubai/SJTU-Login-Addon/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/tangmubai/SJTU-Login-Addon)](https://github.com/tangmubai/SJTU-Login-Addon/releases/latest)
+[![CI](https://github.com/tombirdQAQ/SJTU-Login-Addon/actions/workflows/ci.yml/badge.svg)](https://github.com/tombirdQAQ/SJTU-Login-Addon/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/tombirdQAQ/SJTU-Login-Addon)](https://github.com/tombirdQAQ/SJTU-Login-Addon/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 你是否不胜 jAccount 频繁登录还要输验证码的烦扰？这个适用于 Edge/Chrome 的 Manifest V3 扩展正适合你：打开 SJTU jAccount 登录页后，扩展在**浏览器本地**识别并填写验证码，无需任何第三方服务。搭配可选的"自动登录"功能，可以做到打开登录页即完成登录。
+
+产品官网：<https://jaccount.sj-tu.com>
 
 ## 功能特性
 
@@ -16,23 +18,27 @@
 
 ## 安装
 
-### 方式一：从 Release 下载（推荐）
+### 方式一：从 Edge 外接程序商店安装（推荐）
 
-1. 在 [Releases](https://github.com/tangmubai/SJTU-Login-Addon/releases/latest) 下载最新的 `SJTU-Autologin-<version>.zip` 并解压。
+已上架 Microsoft Edge 商店，一键安装、自动更新：
+
+**[SJTU jAccount 验证码助手 - Microsoft Edge Addons](https://microsoftedge.microsoft.com/addons/detail/sjtu-jaccount-%E9%AA%8C%E8%AF%81%E7%A0%81%E5%8A%A9%E6%89%8B/dgjpildobjblobjjfnbeonlemoghgcmh)**
+
+### 方式二：从 Release 下载
+
+1. 在 [Releases](https://github.com/tombirdQAQ/SJTU-Login-Addon/releases/latest) 下载最新的 `SJTU-Autologin-<version>.zip` 并解压。
 2. Edge 打开 `edge://extensions`，Chrome 打开 `chrome://extensions`。
 3. 开启"开发人员模式"。
 4. 点击"加载解压缩的扩展"，选择解压后的目录。
 
 > Release 同时提供签名的 `.crx` 文件和 `SHA256SUMS.txt` 校验和。注意 Windows/macOS 上的 Chrome 默认禁止安装商店外的 `.crx`（Linux 开发者模式可用），普通用户请使用 ZIP 方式。
 
-### 方式二：从源码构建
+### 方式三：从源码构建
 
 见下方[开发](#开发)一节，构建产物在 `dist/` 目录，同样用"加载解压缩的扩展"载入。
 
-### 方式三：从应用商店安装
-
-若已上架 Chrome Web Store / Edge Add-ons，可直接在商店搜索安装。上架所需的
-文案、截图与数据披露清单见 [docs/STORE_LISTING.md](docs/STORE_LISTING.md)。
+> Chrome Web Store 暂未上架。上架所需的文案、截图与数据披露清单见
+> [docs/STORE_LISTING.md](docs/STORE_LISTING.md)。
 
 ## 使用方法
 
