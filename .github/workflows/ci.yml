@@ -12,6 +12,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 jobs:
   verify:
@@ -64,10 +65,16 @@ jobs:
 
       - name: Verify version is bumped above ${{ github.base_ref }}
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           head_version="$(node -p "JSON.parse(require('fs').readFileSync('extension/manifest.json', 'utf8')).version")"
           base_version="$(git show "origin/${GITHUB_BASE_REF}:extension/manifest.json" | node -p "JSON.parse(require('fs').readFileSync(0, 'utf8')).version")"
-          allow_rebuild="$(node -e "const event = require(process.env.GITHUB_EVENT_PATH); process.stdout.write(String(event.pull_request.labels.some(({ name }) => name === 'rebuild-release')))")"
+          allow_rebuild="$(curl --fail-with-body --silent --show-error \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/issues/${{ github.event.pull_request.number }}/labels" \
+            | node -e "let data = ''; process.stdin.on('data', chunk => data += chunk).on('end', () => process.stdout.write(String(JSON.parse(data).some(({ name }) => name === 'rebuild-release'))))")"
           if [ "$head_version" = "$base_version" ] && [ "$allow_rebuild" = "true" ]; then
             echo "Rebuilding explicitly labeled release ${head_version}"
             exit 0
