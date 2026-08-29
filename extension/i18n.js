@@ -1,3 +1,5 @@
+import { api } from "./browser-api.js";
+
 export function message(name, substitutions) {
-  return globalThis.chrome?.i18n?.getMessage(name, substitutions) || name;
+  return api?.i18n?.getMessage(name, substitutions) || name;
 }

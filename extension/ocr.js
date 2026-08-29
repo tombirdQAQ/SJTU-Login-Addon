@@ -1,4 +1,5 @@
 import * as ort from "onnxruntime-web/wasm";
+import { api } from "./browser-api.js";
 import { decodeCtc } from "./ctc.js";
 import { message } from "./i18n.js";
 
@@ -13,6 +14,14 @@ let lastError = "";
 
 ort.env.wasm.numThreads = 1;
 ort.env.wasm.proxy = false;
+// Firefox runs the background as an event page, whose base URL is the generated
+// background document rather than this bundle, so ORT cannot infer where the
+// runtime .wasm sits. Override only that file: a bare string would be read as a
+// directory prefix and would also send ORT looking for the .mjs glue, which is
+// bundled into this file rather than shipped alongside it.
+ort.env.wasm.wasmPaths = {
+  wasm: api.runtime.getURL("ort-wasm-simd-threaded.wasm")
+};
 
 export function getEngineStatus() {
   return { status, error: lastError };
@@ -31,7 +40,7 @@ export function initializeEngine({ retry = false } = {}) {
   lastError = "";
   charsetPromise = loadCharset();
   sessionPromise = Promise.all([
-    ort.InferenceSession.create(chrome.runtime.getURL(MODEL_URL), {
+    ort.InferenceSession.create(api.runtime.getURL(MODEL_URL), {
       executionProviders: ["wasm"],
       graphOptimizationLevel: "all"
     }),
@@ -51,7 +60,7 @@ export function initializeEngine({ retry = false } = {}) {
 }
 
 async function loadCharset() {
-  const response = await fetch(chrome.runtime.getURL(CHARSET_URL));
+  const response = await fetch(api.runtime.getURL(CHARSET_URL));
   if (!response.ok) {
     throw new Error(message("charsetLoadFailed", String(response.status)));
   }

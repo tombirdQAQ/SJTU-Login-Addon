@@ -18,6 +18,17 @@
   "savedAccount": { "message": "已保存账号" },
   "clear": { "message": "清除" },
   "retry": { "message": "重试" },
+  "siteAccessNeeded": {
+    "message": "尚未授权访问 jaccount.sjtu.edu.cn，验证码识别不会生效。"
+  },
+  "grantSiteAccess": { "message": "授权访问" },
+  "siteAccessReload": {
+    "message": "已授权，请刷新 jAccount 登录页后生效。"
+  },
+  "siteAccessFailed": {
+    "message": "授权失败：$DETAIL$",
+    "placeholders": { "detail": { "content": "$1" } }
+  },
   "generalPrivacy": {
     "message": "验证码仅在本机处理。自动登录默认关闭，每页最多尝试三次；保存的账号密码经加密后仅存于本机。"
   },

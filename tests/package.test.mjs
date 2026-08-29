@@ -77,3 +77,35 @@ test("popup exposes an opt-in auto-login setting", async () => {
   assert.match(html, /id="auto-login"/);
   assert.match(script, /autoLogin:\s*false/);
 });
+
+test("every referenced i18n key exists in both locales", async () => {
+  const [zh, en, html, ...scripts] = await Promise.all([
+    readFile(path.join(source, "_locales", "zh_CN", "messages.json"), "utf8"),
+    readFile(path.join(source, "_locales", "en", "messages.json"), "utf8"),
+    readFile(path.join(source, "popup.html"), "utf8"),
+    ...["popup.js", "background.js", "content.js", "ocr.js", "ctc.js"].map(
+      (name) => readFile(path.join(source, name), "utf8")
+    )
+  ]);
+  const locales = { zh_CN: JSON.parse(zh), en: JSON.parse(en) };
+
+  const referenced = new Set();
+  for (const [, key] of html.matchAll(/data-i18n="([^"]+)"/g)) {
+    referenced.add(key);
+  }
+  for (const code of scripts) {
+    for (const [, key] of code.matchAll(/\bmessage\("([^"]+)"/g)) {
+      referenced.add(key);
+    }
+  }
+  // Resolved at runtime by the browser, not shipped in messages.json.
+  referenced.delete("@@ui_locale");
+
+  assert.ok(referenced.size > 0);
+  for (const key of referenced) {
+    for (const [locale, messages] of Object.entries(locales)) {
+      assert.ok(messages[key], `${key} is missing from ${locale}`);
+    }
+  }
+  assert.deepEqual(Object.keys(locales.zh_CN).sort(), Object.keys(locales.en).sort());
+});

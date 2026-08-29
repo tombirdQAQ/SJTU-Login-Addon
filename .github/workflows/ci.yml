@@ -33,8 +33,11 @@ jobs:
       - name: Run tests
         run: npm run check
 
-      - name: Build extension
+      - name: Build extensions
         run: npm run build
+
+      - name: Lint the Firefox package against AMO rules
+        run: npm run lint:firefox
 
   # Extra gate for release PRs (develop -> main): the merge is what gets
   # tagged and shipped, so require a version bump and a reviewable package.
@@ -88,18 +91,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Package extension for review
-        shell: bash
-        run: |
-          npm run build
-          version="$(node -p "JSON.parse(require('fs').readFileSync('dist/manifest.json', 'utf8')).version")"
-          mkdir -p release
-          (
-            cd dist
-            zip -r "../release/SJTU-Autologin-${version}.zip" .
-          )
+      - name: Package extensions for review
+        run: npm run package
 
-      - name: Upload release candidate
+      - name: Upload release candidates
         uses: actions/upload-artifact@v4
         with:
           name: release-candidate

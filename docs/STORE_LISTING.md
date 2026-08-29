@@ -1,22 +1,28 @@
-# 商店上架清单与文案（Chrome Web Store / Edge Add-ons）
+# 商店上架清单与文案（Chrome Web Store / Edge Add-ons / Firefox AMO）
 
 > **✅ 已上架 Microsoft Edge Add-ons**（2026-07）：
 > <https://microsoftedge.microsoft.com/addons/detail/sjtu-jaccount-%E9%AA%8C%E8%AF%81%E7%A0%81%E5%8A%A9%E6%89%8B/dgjpildobjblobjjfnbeonlemoghgcmh>
 >
 > 产品官网：<https://jaccount.sj-tu.com>（`product-site/`，Cloudflare Workers 部署）。
-> Chrome Web Store 暂未提交。
+> Chrome Web Store、Firefox AMO 暂未提交。
 
-这份文档汇总了两个商店提交时需要填写的所有字段，内容可直接复制粘贴。
-提交用的安装包是 `npm run package` 生成的 `release/SJTU-Autologin-<version>.zip`
-（**不要**上传 `.crx`，商店会自行签名）。
+这份文档汇总了各商店提交时需要填写的所有字段，内容可直接复制粘贴。
+`npm run package` 会生成两个安装包，按目标商店选用：
+
+| 商店 | 安装包 |
+| --- | --- |
+| Chrome Web Store / Edge Add-ons | `release/SJTU-Autologin-<version>.zip` |
+| Firefox AMO | `release/SJTU-Autologin-firefox-<version>.zip` |
+
+**不要**上传 `.crx`，商店会自行签名。
 
 ---
 
-## 一、通用清单（两个商店都要）
+## 一、通用清单（所有商店都要）
 
 | 项目 | 内容 | 状态 |
 | --- | --- | --- |
-| 安装包 ZIP | `release/SJTU-Autologin-<version>.zip`（manifest 在根目录） | ✅ `npm run package` |
+| 安装包 ZIP | `release/SJTU-Autologin[-firefox]-<version>.zip`（manifest 在根目录） | ✅ `npm run package` |
 | 图标 128×128 | `extension/icons/icon-128.png` | ✅ 已内置 |
 | 隐私政策 URL | `https://privacy.sj-tu.com/sjtu-autologin/` | ✅ Cloudflare Pages 页面已准备 |
 | 商店截图（≥1 张） | 弹窗界面 + 登录页自动填写效果 | ⬜ **待你截图** |
@@ -128,13 +134,27 @@ Chrome Web Store 提交时会逐项询问，如实勾选如下：
 2. 新建提交 → 上传同一份 ZIP → 填写文案、截图、隐私政策、数据披露
 3. 提交审核（通常数小时至数天）
 
+### Firefox AMO
+1. 注册（免费）：<https://addons.mozilla.org/developers/>
+2. 提交前本地跑 `npm run lint:firefox`，确认 **0 errors**（3 条已知 warning 见
+   [README](../README.md#上架-firefoxamo)）
+3. 上传 `release/SJTU-Autologin-firefox-<version>.zip`
+4. **必须附源码**：包内 JS 是 esbuild 压缩产物，AMO 规定压缩代码需同时提交源码与
+   可复现的构建说明。填写：源码仓库地址、Node.js 22、`npm ci && npm run build:firefox`、
+   产物目录 `dist/firefox`
+5. 数据收集声明：清单里已写 `data_collection_permissions.required = ["none"]`，
+   后台表单同样选择「不收集任何数据」，与之保持一致
+6. 附加组件 ID 为 `sjtu-autologin@sj-tu.com`，**首次提交后不可更改**
+7. 提交审核（自动校验通常几分钟；含凭据功能可能触发人工复审）
+
 ---
 
 ## 六、发布新版本时
 
 1. 提升 `extension/manifest.json` 与 `package.json` 的版本号并合入 main（走 PR）。
 2. `npm run package` 生成新的 ZIP。
-3. 分别在 Chrome / Edge 开发者后台上传新 ZIP 作为新版本（文案通常无需重填）。
+3. 分别在 Chrome / Edge / AMO 开发者后台上传对应的新 ZIP 作为新版本（文案通常无需重填）。
+   AMO 每次上传都要重新附上源码与构建说明。
 4. 商店审核通过后会自动向已安装用户推送更新。
 
 > GitHub Release（打 `v<version>` 标签触发）与商店发布是**相互独立**的两条渠道，

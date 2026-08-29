@@ -1,3 +1,4 @@
+import { api } from "./browser-api.js";
 import {
   AUTO_LOGIN_DELAY_MS,
   AUTOFILL_POLL_DURATION_MS,
@@ -32,7 +33,7 @@ let storedCredentialsAbsent = false;
 const submissionGate = new SubmissionGate();
 
 async function getSettings() {
-  return chrome.storage.local.get({
+  return api.storage.local.get({
     enabled: true,
     autoLogin: false
   });
@@ -108,7 +109,7 @@ async function fillCaptcha() {
     const dataUrl = await imageToDataUrl(image);
     if (dataUrl === lastImageData) return;
     lastImageData = dataUrl;
-    const result = await chrome.runtime.sendMessage({
+    const result = await api.runtime.sendMessage({
       type: "ocr",
       image: dataUrl
     });
@@ -213,7 +214,7 @@ async function fillStoredCredentials() {
 
   credentialRequestPending = true;
   try {
-    const result = await chrome.runtime.sendMessage({
+    const result = await api.runtime.sendMessage({
       type: "credentials-get"
     });
     if (!result?.ok) {
@@ -278,7 +279,7 @@ document.addEventListener(
 for (const eventName of ["input", "change", "focus", "animationstart"]) {
   document.addEventListener(eventName, () => requestAutoLogin(), true);
 }
-chrome.storage.onChanged.addListener(() => {
+api.storage.onChanged.addListener(() => {
   storedCredentialsAbsent = false;
   fillStoredCredentials();
   fillCaptcha();

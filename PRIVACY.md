@@ -19,8 +19,8 @@ SJTU jAccount 验证码助手（下称"本扩展"）是一个开源的浏览器�
 | 数据类型 | 何时产生 | 用途 | 存储位置 | 是否上传 |
 | --- | --- | --- | --- | --- |
 | 登录页验证码图片 | 你打开 jAccount 登录页且页面显示验证码时 | 在本机识别验证码文本并回填输入框 | 仅存在于内存，识别后即丢弃 | 否 |
-| jAccount 账号与密码 | **仅当你主动开启"自动登录"并点击"加密保存到本机"时** | 在 jAccount 登录页自动填充账号密码 | 经 AES-GCM 加密后存于浏览器本地（`chrome.storage.local`），加密密钥单独存于扩展的 IndexedDB | 否 |
-| 扩展设置（是否开启自动填写／自动登录） | 你在弹窗中切换开关时 | 记住你的偏好 | 浏览器本地（`chrome.storage.local`） | 否 |
+| jAccount 账号与密码 | **仅当你主动开启"自动登录"并点击"加密保存到本机"时** | 在 jAccount 登录页自动填充账号密码 | 经 AES-GCM 加密后存于浏览器本地（`storage.local`），加密密钥单独存于扩展的 IndexedDB | 否 |
+| 扩展设置（是否开启自动填写／自动登录） | 你在弹窗中切换开关时 | 记住你的偏好 | 浏览器本地（`storage.local`） | 否 |
 
 本扩展**不收集**：浏览历史、Cookie、其它网站的任何内容、设备标识、位置、
 分析或遥测数据。
@@ -90,8 +90,8 @@ sent, uploaded, or shared with any server — including the developer's.**
 | Data | When | Purpose | Where stored | Uploaded? |
 | --- | --- | --- | --- | --- |
 | Login captcha image | When you open the jAccount login page and a captcha is shown | Recognize the captcha text locally and fill the input | In memory only; discarded after recognition | No |
-| jAccount username & password | **Only if you enable "Auto-login" and click "Save encrypted locally"** | Auto-fill credentials on the jAccount login page | AES-GCM encrypted in `chrome.storage.local`; key stored separately in the extension's IndexedDB | No |
-| Extension settings (autofill / auto-login toggles) | When you toggle switches in the popup | Remember your preferences | `chrome.storage.local` | No |
+| jAccount username & password | **Only if you enable "Auto-login" and click "Save encrypted locally"** | Auto-fill credentials on the jAccount login page | AES-GCM encrypted in `storage.local`; key stored separately in the extension's IndexedDB | No |
+| Extension settings (autofill / auto-login toggles) | When you toggle switches in the popup | Remember your preferences | `storage.local` | No |
 
 The Extension does **not** collect: browsing history, cookies, content of any
 other website, device identifiers, location, analytics, or telemetry.

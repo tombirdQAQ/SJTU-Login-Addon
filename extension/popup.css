@@ -167,6 +167,18 @@ button {
 }
 .ghost.danger { color: var(--danger); }
 
+/* 站点授权提示（Firefox 的 host permission 需用户手动授予） */
+.site-access {
+  padding: 12px;
+  border-color: var(--accent);
+}
+.site-access p {
+  margin: 0 0 10px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.site-access[hidden] { display: none; }
+
 /* 已保存账号行 */
 #credential-saved {
   display: flex;
