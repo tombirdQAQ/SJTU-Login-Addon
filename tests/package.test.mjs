@@ -14,7 +14,11 @@ test("manifest is self-contained and MV3-compatible", async () => {
     await readFile(path.join(source, "manifest.json"), "utf8")
   );
   assert.equal(manifest.manifest_version, 3);
-  assert.equal(manifest.version, "0.4.3");
+  const packageVersion = JSON.parse(
+    await readFile(path.join(root, "package.json"), "utf8")
+  ).version;
+  assert.equal(manifest.version, packageVersion);
+  assert.match(manifest.version, /^\d+\.\d+\.\d+$/);
   assert.equal(manifest.minimum_chrome_version, "103");
   assert.equal(manifest.background.type, "module");
   assert.equal(manifest.default_locale, "zh_CN");
