@@ -1,3 +1,4 @@
+import { api } from "./browser-api.js";
 import { message } from "./i18n.js";
 
 const enabled = document.querySelector("#enabled");
@@ -11,6 +12,9 @@ const credentialError = document.querySelector("#credential-error");
 const credentialSaved = document.querySelector("#credential-saved");
 const credentialName = document.querySelector("#credential-name");
 const credentialClear = document.querySelector("#credential-clear");
+const siteAccess = document.querySelector("#site-access");
+const siteAccessText = document.querySelector("#site-access-text");
+const siteAccessGrant = document.querySelector("#site-access-grant");
 let pollTimer;
 
 document.documentElement.lang = message("@@ui_locale").replace("_", "-");
@@ -28,7 +32,7 @@ const STATUS_TEXT = {
 async function checkEngine({ retryEngine = false } = {}) {
   window.clearTimeout(pollTimer);
   try {
-    const result = await chrome.runtime.sendMessage({
+    const result = await api.runtime.sendMessage({
       type: "engine-status",
       retry: retryEngine
     });
@@ -54,6 +58,25 @@ async function checkEngine({ retryEngine = false } = {}) {
   }
 }
 
+const LOGIN_ORIGINS = ["https://jaccount.sjtu.edu.cn/*"];
+
+// Firefox treats MV3 host permissions as optional, and before Firefox 127 the
+// install prompt did not even mention them, so the add-on can sit installed but
+// inert. Chromium grants them at install time, where this stays hidden.
+async function refreshSiteAccess() {
+  if (!api?.permissions?.contains) {
+    siteAccess.hidden = true;
+    return;
+  }
+  try {
+    siteAccess.hidden = await api.permissions.contains({
+      origins: LOGIN_ORIGINS
+    });
+  } catch {
+    siteAccess.hidden = true;
+  }
+}
+
 function updateAutoLoginAvailability() {
   autoLogin.disabled = !enabled.checked;
 }
@@ -71,7 +94,7 @@ async function refreshCredentialUI() {
     return;
   }
   try {
-    const result = await chrome.runtime.sendMessage({
+    const result = await api.runtime.sendMessage({
       type: "credentials-status"
     });
     const saved = Boolean(result?.ok && result.saved);
@@ -84,19 +107,19 @@ async function refreshCredentialUI() {
   }
 }
 
-chrome.storage.local.get({ enabled: true, autoLogin: false }).then((data) => {
+api.storage.local.get({ enabled: true, autoLogin: false }).then((data) => {
   enabled.checked = data.enabled;
   autoLogin.checked = data.autoLogin;
   updateAutoLoginAvailability();
   refreshCredentialUI();
 });
 enabled.addEventListener("change", () => {
-  chrome.storage.local.set({ enabled: enabled.checked });
+  api.storage.local.set({ enabled: enabled.checked });
   updateAutoLoginAvailability();
   refreshCredentialUI();
 });
 autoLogin.addEventListener("change", () => {
-  chrome.storage.local.set({ autoLogin: autoLogin.checked });
+  api.storage.local.set({ autoLogin: autoLogin.checked });
   refreshCredentialUI();
 });
 credentialForm.addEventListener("submit", async (event) => {
@@ -109,7 +132,7 @@ credentialForm.addEventListener("submit", async (event) => {
     return;
   }
   try {
-    const result = await chrome.runtime.sendMessage({
+    const result = await api.runtime.sendMessage({
       type: "credentials-save",
       user,
       pass
@@ -124,7 +147,7 @@ credentialForm.addEventListener("submit", async (event) => {
 });
 credentialClear.addEventListener("click", async () => {
   try {
-    const result = await chrome.runtime.sendMessage({
+    const result = await api.runtime.sendMessage({
       type: "credentials-clear"
     });
     if (!result?.ok) throw new Error(result?.error || message("clearFailed"));
@@ -132,5 +155,23 @@ credentialClear.addEventListener("click", async () => {
     refreshCredentialUI();
   }
 });
+siteAccessGrant.addEventListener("click", async () => {
+  // permissions.request must be called directly from the click handler, so no
+  // awaiting anything before it.
+  try {
+    const granted = await api.permissions.request({ origins: LOGIN_ORIGINS });
+    if (granted) {
+      // A login page that is already open has no content script in it yet, so
+      // keep the card up to ask for a reload rather than hiding it on success.
+      siteAccessText.textContent = message("siteAccessReload");
+      siteAccessGrant.hidden = true;
+      return;
+    }
+    await refreshSiteAccess();
+  } catch (error) {
+    siteAccessText.textContent = message("siteAccessFailed", error.message);
+  }
+});
 retry.addEventListener("click", () => checkEngine({ retryEngine: true }));
+refreshSiteAccess();
 checkEngine();

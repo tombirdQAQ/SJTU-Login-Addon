@@ -1,3 +1,4 @@
+import { api } from "./browser-api.js";
 import {
   decryptCredentials,
   deleteKey,
@@ -15,20 +16,20 @@ const CREDENTIAL_CIPHER_KEY = "credentialCipher";
 const CREDENTIAL_USER_KEY = "credentialUser";
 const LOGIN_PAGE_PREFIX = "https://jaccount.sjtu.edu.cn/";
 
-chrome.runtime.onInstalled.addListener(() => {
+api.runtime.onInstalled.addListener(() => {
   initializeEngine().catch(() => {});
 });
 
 function isOwnExtensionPage(sender) {
   return (
-    sender.id === chrome.runtime.id &&
-    Boolean(sender.url?.startsWith(chrome.runtime.getURL("")))
+    sender.id === api.runtime.id &&
+    Boolean(sender.url?.startsWith(api.runtime.getURL("")))
   );
 }
 
 function isLoginContentScript(sender) {
   return (
-    sender.id === chrome.runtime.id &&
+    sender.id === api.runtime.id &&
     Boolean(sender.url?.startsWith(LOGIN_PAGE_PREFIX))
   );
 }
@@ -46,14 +47,14 @@ async function saveCredentials({ user, pass }) {
     user: trimmedUser,
     pass
   });
-  await chrome.storage.local.set({
+  await api.storage.local.set({
     [CREDENTIAL_CIPHER_KEY]: cipher,
     [CREDENTIAL_USER_KEY]: trimmedUser
   });
 }
 
 async function readCredentials() {
-  const stored = await chrome.storage.local.get(CREDENTIAL_CIPHER_KEY);
+  const stored = await api.storage.local.get(CREDENTIAL_CIPHER_KEY);
   const cipher = stored[CREDENTIAL_CIPHER_KEY];
   if (!cipher) return null;
   const key = await getOrCreateKey();
@@ -61,7 +62,7 @@ async function readCredentials() {
 }
 
 async function clearCredentials() {
-  await chrome.storage.local.remove([
+  await api.storage.local.remove([
     CREDENTIAL_CIPHER_KEY,
     CREDENTIAL_USER_KEY
   ]);
@@ -80,7 +81,7 @@ function respondWith(promise, sendResponse) {
   return true;
 }
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+api.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message?.type === "engine-status") {
     if (message.retry || getEngineStatus().status === "idle") {
       initializeEngine({ retry: Boolean(message.retry) }).catch(() => {});
@@ -114,7 +115,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message?.type === "credentials-status") {
     if (!isOwnExtensionPage(sender)) return false;
     return respondWith(
-      chrome.storage.local
+      api.storage.local
         .get({ [CREDENTIAL_CIPHER_KEY]: null, [CREDENTIAL_USER_KEY]: "" })
         .then((data) => ({
           saved: Boolean(data[CREDENTIAL_CIPHER_KEY]),

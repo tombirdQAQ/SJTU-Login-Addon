@@ -1,3 +1,4 @@
+import { api } from "./browser-api.js";
 import {
   AUTO_LOGIN_DELAY_MS,
   AUTOFILL_POLL_DURATION_MS,
@@ -32,7 +33,7 @@ let storedCredentialsAbsent = false;
 const submissionGate = new SubmissionGate();
 
 async function getSettings() {
-  return chrome.storage.local.get({
+  return api.storage.local.get({
     enabled: true,
     autoLogin: false
   });
@@ -45,6 +46,23 @@ function findFirst(selectors, predicate = () => true) {
     }
   }
   return null;
+}
+
+// Firefox gives content scripts an Xray view of page elements: writes to
+// `element.dataset` land on a per-sandbox wrapper rather than on a real
+// attribute, so they cannot be read back and the submit gate never opens.
+// Attributes cross that boundary, the dataset property does not.
+const OCR_STATUS_ATTRIBUTE = "data-sjtu-ocr-status";
+
+function setOcrStatus(input, status) {
+  input?.setAttribute(OCR_STATUS_ATTRIBUTE, status);
+}
+
+function isCaptchaFilled(input) {
+  return (
+    input?.getAttribute(OCR_STATUS_ATTRIBUTE) === "filled" &&
+    Boolean(input.value.trim())
+  );
 }
 
 function isVisibleInput(element) {
@@ -104,11 +122,11 @@ async function fillCaptcha() {
   running = true;
 
   try {
-    input.dataset.sjtuOcrStatus = "recognizing";
+    setOcrStatus(input, "recognizing");
     const dataUrl = await imageToDataUrl(image);
     if (dataUrl === lastImageData) return;
     lastImageData = dataUrl;
-    const result = await chrome.runtime.sendMessage({
+    const result = await api.runtime.sendMessage({
       type: "ocr",
       image: dataUrl
     });
@@ -122,10 +140,10 @@ async function fillCaptcha() {
       );
     }
     setInputValue(input, text);
-    input.dataset.sjtuOcrStatus = "filled";
+    setOcrStatus(input, "filled");
     requestAutoLogin(dataUrl);
   } catch (error) {
-    input.dataset.sjtuOcrStatus = "error";
+    setOcrStatus(input, "error");
     console.warn("[SJTU CAPTCHA OCR]", error);
     lastImageData = "";
   } finally {
@@ -157,9 +175,7 @@ async function requestAutoLogin(fingerprint = lastImageData) {
   const { user, pass, captcha, button } = passwordLoginElements();
   const ready = shouldAutoSubmit({
     ...settings,
-    captchaFilled:
-      captcha?.dataset.sjtuOcrStatus === "filled" &&
-      Boolean(captcha?.value.trim()),
+    captchaFilled: isCaptchaFilled(captcha),
     userFilled: isCredentialFilled(user),
     passFilled: isCredentialFilled(pass),
     buttonVisible: Boolean(button && button.getClientRects().length > 0),
@@ -179,9 +195,7 @@ async function requestAutoLogin(fingerprint = lastImageData) {
       const latest = passwordLoginElements();
       const stillReady = shouldAutoSubmit({
         ...latestSettings,
-        captchaFilled:
-          latest.captcha?.dataset.sjtuOcrStatus === "filled" &&
-          Boolean(latest.captcha?.value.trim()),
+        captchaFilled: isCaptchaFilled(latest.captcha),
         userFilled: isCredentialFilled(latest.user),
         passFilled: isCredentialFilled(latest.pass),
         buttonVisible: Boolean(
@@ -193,7 +207,7 @@ async function requestAutoLogin(fingerprint = lastImageData) {
       });
       if (!stillReady || !submissionGate.record(fingerprint)) return;
 
-      latest.captcha.dataset.sjtuOcrStatus = "submitting";
+      setOcrStatus(latest.captcha, "submitting");
       latest.button.click();
     } finally {
       pendingAutoLoginFingerprint = "";
@@ -213,7 +227,7 @@ async function fillStoredCredentials() {
 
   credentialRequestPending = true;
   try {
-    const result = await chrome.runtime.sendMessage({
+    const result = await api.runtime.sendMessage({
       type: "credentials-get"
     });
     if (!result?.ok) {
@@ -278,7 +292,7 @@ document.addEventListener(
 for (const eventName of ["input", "change", "focus", "animationstart"]) {
   document.addEventListener(eventName, () => requestAutoLogin(), true);
 }
-chrome.storage.onChanged.addListener(() => {
+api.storage.onChanged.addListener(() => {
   storedCredentialsAbsent = false;
   fillStoredCredentials();
   fillCaptcha();

@@ -18,6 +18,17 @@
   "savedAccount": { "message": "Saved account" },
   "clear": { "message": "Clear" },
   "retry": { "message": "Retry" },
+  "siteAccessNeeded": {
+    "message": "Access to jaccount.sjtu.edu.cn has not been granted, so captchas will not be filled."
+  },
+  "grantSiteAccess": { "message": "Grant access" },
+  "siteAccessReload": {
+    "message": "Access granted. Reload the jAccount login page to apply it."
+  },
+  "siteAccessFailed": {
+    "message": "Could not grant access: $DETAIL$",
+    "placeholders": { "detail": { "content": "$1" } }
+  },
   "generalPrivacy": {
     "message": "Captchas are processed only on this device. Auto-login is off by default and attempts at most three times per page. Saved credentials remain encrypted on this device."
   },
