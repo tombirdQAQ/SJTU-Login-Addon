@@ -110,6 +110,7 @@ npm run package       # 构建并打包 release/ 下的两个 ZIP
 | 站点权限 | 安装时授予 | 用户可选授予，弹窗内提供授权按钮 |
 
 - **API 命名空间**：`extension/browser-api.js` 统一导出 `globalThis.browser ?? globalThis.chrome`。Firefox 的 `chrome.*` 是回调式的，只有 `browser.*` 返回 Promise，而 Chromium MV3 的 `chrome.*` 也返回 Promise，因此优先取 `browser` 就能在两端得到同一套 Promise 接口，无需引入 polyfill。测试会拦截任何漏改的裸 `chrome.` 调用。
+- **内容脚本的 Xray vision**：Firefox 给内容脚本的是页面元素的 Xray 视图，往 `element.dataset` 上写的值会落在每个沙箱各自的包装对象上，**既不产生真实的 `data-*` 属性，也读不回来**。验证码识别状态原先就存在 `dataset` 上，导致 Firefox 上验证码能填、账号密码能填，唯独自动登录的门控永远不放行。现改用 `setAttribute` / `getAttribute`，属性能跨越该边界。测试会拦截 `dataset` 在内容脚本里的回归。
 - **ORT wasm 路径**：Firefox 事件页的 base URL 是浏览器生成的后台文档，onnxruntime-web 无法据此推断 `.wasm` 位置，所以 `ocr.js` 显式指定 `ort.env.wasm.wasmPaths = { wasm: ... }`。这里必须用对象形式：字符串会被当作目录前缀，导致 ORT 连带去找并未随包发布的 `.mjs` 胶水文件。
 
 ### 上架 Firefox（AMO）

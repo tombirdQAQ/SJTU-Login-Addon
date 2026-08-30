@@ -114,3 +114,17 @@ test("the popup can request Firefox's optional host permission", async () => {
     )
   );
 });
+
+test("the content script keeps its page state in attributes, not dataset", async () => {
+  const code = await readFile(path.join(source, "content.js"), "utf8");
+  const withoutComments = code
+    .split("\n")
+    .filter((line) => !line.trimStart().startsWith("//"))
+    .join("\n");
+  // Firefox's Xray vision puts `element.dataset` writes from a content script
+  // on a per-sandbox wrapper instead of a real attribute, so they read back as
+  // undefined and the auto-login gate never opens. Attributes survive it.
+  assert.doesNotMatch(withoutComments, /\.dataset\b/);
+  assert.match(withoutComments, /setAttribute\(OCR_STATUS_ATTRIBUTE/);
+  assert.match(withoutComments, /getAttribute\(OCR_STATUS_ATTRIBUTE\)/);
+});
