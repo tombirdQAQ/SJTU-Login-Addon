@@ -107,11 +107,13 @@ test("the popup can request Firefox's optional host permission", async () => {
   assert.match(script, /permissions\.request\(\{ origins: LOGIN_ORIGINS \}\)/);
   assert.match(script, /permissions\.contains\(\{/);
   // The origin offered to the user must match what the manifest declares.
-  assert.match(
-    script,
-    new RegExp(
-      `LOGIN_ORIGINS = \\[\\s*"${base.host_permissions[0].replace(/[.*/]/g, "\\$&")}"`
-    )
+  // Compare the extracted literal instead of building a regex from the origin:
+  // escaping a string into a pattern is easy to get subtly wrong.
+  const [origins] = script.match(/LOGIN_ORIGINS = \[[^\]]*\]/) ?? [];
+  assert.ok(origins, "LOGIN_ORIGINS is missing from popup.js");
+  assert.ok(
+    origins.includes(`"${base.host_permissions[0]}"`),
+    `${origins} does not offer ${base.host_permissions[0]}`
   );
 });
 
