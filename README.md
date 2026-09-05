@@ -3,6 +3,7 @@
 [![CI](https://github.com/tombirdQAQ/SJTU-Login-Addon/actions/workflows/ci.yml/badge.svg)](https://github.com/tombirdQAQ/SJTU-Login-Addon/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/tombirdQAQ/SJTU-Login-Addon)](https://github.com/tombirdQAQ/SJTU-Login-Addon/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Firefox Add-ons](https://img.shields.io/amo/v/sjtu-autologin?label=Firefox%20Add-ons&color=ff7139)](https://addons.mozilla.org/zh-CN/firefox/addon/sjtu-autologin/)
 
 你是否不胜 jAccount 频繁登录还要输验证码的烦扰？这个适用于 Edge/Chrome/Firefox 的 Manifest V3 扩展正适合你：打开 SJTU jAccount 登录页后，扩展在**浏览器本地**识别并填写验证码，无需任何第三方服务。搭配可选的"自动登录"功能，可以做到打开登录页即完成登录。
 
@@ -19,35 +20,34 @@
 
 ## 安装
 
-### 方式一：从 Edge 外接程序商店安装（推荐）
+### 方式一：从浏览器商店安装（推荐）
 
-已上架 Microsoft Edge 商店，一键安装、自动更新：
+两个商店均已上架，一键安装、自动更新：
 
-**[SJTU jAccount 验证码助手 - Microsoft Edge Addons](https://microsoftedge.microsoft.com/addons/detail/sjtu-jaccount-%E9%AA%8C%E8%AF%81%E7%A0%81%E5%8A%A9%E6%89%8B/dgjpildobjblobjjfnbeonlemoghgcmh)**
+| 浏览器 | 商店 |
+| --- | --- |
+| Edge / Chrome / 其它 Chromium | **[Microsoft Edge 外接程序商店](https://microsoftedge.microsoft.com/addons/detail/sjtu-jaccount-%E9%AA%8C%E8%AF%81%E7%A0%81%E5%8A%A9%E6%89%8B/dgjpildobjblobjjfnbeonlemoghgcmh)** |
+| Firefox（115 ESR 或更高） | **[Firefox Browser Add-ons](https://addons.mozilla.org/zh-CN/firefox/addon/sjtu-autologin/)** |
 
-### 方式二：从 Release 下载
+> **Firefox 用户装完请确认站点授权。** Firefox 把 MV3 的站点权限视为可选授权，Firefox 127 以下的版本在安装时甚至不会提示。若扩展弹窗顶部出现「尚未授权访问 jaccount.sjtu.edu.cn」，点击「授权访问」并刷新登录页即可。
 
-1. 在 [Releases](https://github.com/tombirdQAQ/SJTU-Login-Addon/releases/latest) 下载最新的 `SJTU-Autologin-<version>.zip` 并解压。
-2. Edge 打开 `edge://extensions`，Chrome 打开 `chrome://extensions`。
-3. 开启"开发人员模式"。
-4. 点击"加载解压缩的扩展"，选择解压后的目录。
+### 方式二：从 Release 下载离线包
 
+1. 在 [Releases](https://github.com/tombirdQAQ/SJTU-Login-Addon/releases/latest) 下载对应的压缩包：
+   - Chromium：`SJTU-Autologin-<version>.zip`
+   - Firefox：`SJTU-Autologin-firefox-<version>.zip`
+2. Edge 打开 `edge://extensions`，Chrome 打开 `chrome://extensions`，开启"开发人员模式"，点击"加载解压缩的扩展"选择解压后的目录。
+3. Firefox 打开 `about:debugging#/runtime/this-firefox` →「临时载入附加组件」→ 选择 ZIP 包或解压后的 `manifest.json`。
+
+> Firefox 的临时载入**重启浏览器后失效**，仅适合开发自测；日常使用请走商店安装。
+>
 > Release 同时提供签名的 `.crx` 文件和 `SHA256SUMS.txt` 校验和。注意 Windows/macOS 上的 Chrome 默认禁止安装商店外的 `.crx`（Linux 开发者模式可用），普通用户请使用 ZIP 方式。
 
-### 方式三：Firefox
+### 方式三：从源码构建
 
-Firefox 需要 **115 ESR 或更高版本**，安装 `SJTU-Autologin-firefox-<version>.zip`：
+见下方[开发](#开发)一节，构建产物在 `dist/chromium/` 与 `dist/firefox/` 目录。
 
-- **临时载入（开发/自测）**：打开 `about:debugging#/runtime/this-firefox` →「临时载入附加组件」→ 选择 ZIP 包或 `dist/firefox/manifest.json`。重启浏览器后失效。
-- **永久安装**：需要 AMO 签名后的 `.xpi`。未签名的包只能装在 Firefox Developer Edition / Nightly，并需将 `about:config` 的 `xpinstall.signatures.required` 设为 `false`。
-
-> **首次安装后请确认站点授权。** Firefox 把 MV3 的站点权限视为可选授权，Firefox 127 以下的版本在安装时甚至不会提示。若扩展弹窗顶部出现「尚未授权访问 jaccount.sjtu.edu.cn」，点击「授权访问」并刷新登录页即可。
-
-### 方式四：从源码构建
-
-见下方[开发](#开发)一节，构建产物在 `dist/chromium/` 与 `dist/firefox/` 目录，同样用"加载解压缩的扩展"载入。
-
-> Chrome Web Store 暂未上架。上架所需的文案、截图与数据披露清单见
+> Chrome Web Store 暂未上架（Chrome 用户可直接安装 Edge 商店版本或用离线包）。上架所需的文案、截图与数据披露清单见
 > [docs/STORE_LISTING.md](docs/STORE_LISTING.md)。
 
 ## 使用方法
@@ -113,13 +113,16 @@ npm run package       # 构建并打包 release/ 下的两个 ZIP
 - **内容脚本的 Xray vision**：Firefox 给内容脚本的是页面元素的 Xray 视图，往 `element.dataset` 上写的值会落在每个沙箱各自的包装对象上，**既不产生真实的 `data-*` 属性，也读不回来**。验证码识别状态原先就存在 `dataset` 上，导致 Firefox 上验证码能填、账号密码能填，唯独自动登录的门控永远不放行。现改用 `setAttribute` / `getAttribute`，属性能跨越该边界。测试会拦截 `dataset` 在内容脚本里的回归。
 - **ORT wasm 路径**：Firefox 事件页的 base URL 是浏览器生成的后台文档，onnxruntime-web 无法据此推断 `.wasm` 位置，所以 `ocr.js` 显式指定 `ort.env.wasm.wasmPaths = { wasm: ... }`。这里必须用对象形式：字符串会被当作目录前缀，导致 ORT 连带去找并未随包发布的 `.mjs` 胶水文件。
 
-### 上架 Firefox（AMO）
+### 发版到 AMO
+
+已上架：<https://addons.mozilla.org/zh-CN/firefox/addon/sjtu-autologin/>（附加组件 ID `sjtu-autologin@sj-tu.com`，不可更改）。每次发新版：
 
 1. `npm run package` 后取 `release/SJTU-Autologin-firefox-<version>.zip`。
-2. `npm run lint:firefox` 应为 **0 errors**。当前有 3 条已知 warning，均不阻塞审核：
+2. `npm run lint:firefox` 应为 **0 errors**。有 3 条长期存在的 warning，均不阻塞审核：
    - 两条 `KEY_FIREFOX*_UNSUPPORTED_BY_MIN_VERSION`——`data_collection_permissions` 是 AMO 对新扩展的必填键，但它要到 Firefox 140 才被识别。保留 `strict_min_version: 115.0` 意味着老版本会忽略该键，这是支持 115 ESR 的代价。
-   - 一条 `UNSAFE_VAR_ASSIGNMENT`——来自 onnxruntime-web 内部的动态 `import()`，属上游实现。
-3. 提交的包内 JS 是 esbuild 压缩产物，**AMO 要求同时提交源码与构建说明**：源码仓库地址 + Node.js 22 + `npm ci && npm run build:firefox`，产物目录 `dist/firefox`。
+   - 一条 `UNSAFE_VAR_ASSIGNMENT`——来自 onnxruntime-web 内部的动态 `import()`。该分支在本项目的配置下不可达：`wasmPaths` 用的是对象形式，库会走内联胶水而非 `import()`，且包内根本不含 `.mjs` 文件。
+3. 包内 JS 是 esbuild 压缩产物，**AMO 要求同时提交源码与构建说明**。源码包用 `git archive --format=zip -o release/SJTU-Autologin-<version>-source.zip v<version>` 生成（只含被跟踪文件，不含 `node_modules`），构建说明填 Node.js 22 + `npm ci && npm run build:firefox`，产物目录 `dist/firefox`。
+4. **版本号一经提交即作废**：AMO 不允许同一版本号重传，被驳回后必须升版重走发布流程。
 
 ### 测试
 

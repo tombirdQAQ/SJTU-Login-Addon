@@ -3,8 +3,12 @@
 > **✅ 已上架 Microsoft Edge Add-ons**（2026-07）：
 > <https://microsoftedge.microsoft.com/addons/detail/sjtu-jaccount-%E9%AA%8C%E8%AF%81%E7%A0%81%E5%8A%A9%E6%89%8B/dgjpildobjblobjjfnbeonlemoghgcmh>
 >
+> **✅ 已上架 Firefox Add-ons**（2026-09）：
+> <https://addons.mozilla.org/zh-CN/firefox/addon/sjtu-autologin/>
+>
+> Chrome Web Store 暂未提交。
+>
 > 产品官网：<https://jaccount.sj-tu.com>（`product-site/`，Cloudflare Workers 部署）。
-> Chrome Web Store、Firefox AMO 暂未提交。
 
 这份文档汇总了各商店提交时需要填写的所有字段，内容可直接复制粘贴。
 `npm run package` 会生成两个安装包，按目标商店选用：
@@ -27,7 +31,7 @@
 | 隐私政策 URL | `https://privacy.sj-tu.com/sjtu-autologin/` | ✅ Cloudflare Pages 页面已准备 |
 | 商店截图（≥1 张） | 弹窗界面 + 登录页自动填写效果 | ⬜ **待你截图** |
 | 支持/联系邮箱 | 你的邮箱 | ⬜ 提交时填写 |
-| 类别 | Productivity / Tools（生产力工具） | 提交时选择 |
+| 类别 | Chrome/Edge：Productivity / Tools（生产力工具）<br>AMO：**隐私和安全**（AMO 没有生产力分类，别照搬） | 提交时选择 |
 | 语言 | 简体中文（zh-CN） | 提交时选择 |
 
 > **截图要求**：Chrome 需 1280×800 或 640×400；Edge 需 1280×800（或
@@ -134,18 +138,19 @@ Chrome Web Store 提交时会逐项询问，如实勾选如下：
 2. 新建提交 → 上传同一份 ZIP → 填写文案、截图、隐私政策、数据披露
 3. 提交审核（通常数小时至数天）
 
-### Firefox AMO
-1. 注册（免费）：<https://addons.mozilla.org/developers/>
-2. 提交前本地跑 `npm run lint:firefox`，确认 **0 errors**（3 条已知 warning 见
-   [README](../README.md#上架-firefoxamo)）
+### Firefox AMO（已上架，以下为发新版流程）
+1. 开发者后台：<https://addons.mozilla.org/developers/>
+2. 提交前本地跑 `npm run lint:firefox`，确认 **0 errors**（3 条长期 warning 见
+   [README](../README.md#发版到-amo)）
 3. 上传 `release/SJTU-Autologin-firefox-<version>.zip`
 4. **必须附源码**：包内 JS 是 esbuild 压缩产物，AMO 规定压缩代码需同时提交源码与
-   可复现的构建说明。填写：源码仓库地址、Node.js 22、`npm ci && npm run build:firefox`、
-   产物目录 `dist/firefox`
+   可复现的构建说明。源码包用
+   `git archive --format=zip -o release/SJTU-Autologin-<version>-source.zip v<version>` 生成；
+   构建说明填 Node.js 22、`npm ci && npm run build:firefox`、产物目录 `dist/firefox`
 5. 数据收集声明：清单里已写 `data_collection_permissions.required = ["none"]`，
    后台表单同样选择「不收集任何数据」，与之保持一致
-6. 附加组件 ID 为 `sjtu-autologin@sj-tu.com`，**首次提交后不可更改**
-7. 提交审核（自动校验通常几分钟；含凭据功能可能触发人工复审）
+6. **版本号一经提交即作废**，被驳回后必须升版重走发布流程
+7. 固定信息：附加组件 ID `sjtu-autologin@sj-tu.com`、分类「隐私和安全」、许可证 MIT
 
 ---
 
