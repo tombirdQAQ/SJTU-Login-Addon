@@ -26,8 +26,9 @@
 
 | 浏览器 | 商店 |
 | --- | --- |
-| Edge / Chrome / 其它 Chromium | **[Microsoft Edge 外接程序商店](https://microsoftedge.microsoft.com/addons/detail/sjtu-jaccount-%E9%AA%8C%E8%AF%81%E7%A0%81%E5%8A%A9%E6%89%8B/dgjpildobjblobjjfnbeonlemoghgcmh)** |
+| Microsoft Edge | **[Microsoft Edge 外接程序商店](https://microsoftedge.microsoft.com/addons/detail/sjtu-jaccount-%E9%AA%8C%E8%AF%81%E7%A0%81%E5%8A%A9%E6%89%8B/dgjpildobjblobjjfnbeonlemoghgcmh)** |
 | Firefox（115 ESR 或更高） | **[Firefox Browser Add-ons](https://addons.mozilla.org/zh-CN/firefox/addon/sjtu-autologin/)** |
+| Chrome / 其它 Chromium | 暂无商店，请用下方的[离线包](#方式二从-release-下载离线包) |
 
 > **Firefox 用户装完请确认站点授权。** Firefox 把 MV3 的站点权限视为可选授权，Firefox 127 以下的版本在安装时甚至不会提示。若扩展弹窗顶部出现「尚未授权访问 jaccount.sjtu.edu.cn」，点击「授权访问」并刷新登录页即可。
 
@@ -47,7 +48,7 @@
 
 见下方[开发](#开发)一节，构建产物在 `dist/chromium/` 与 `dist/firefox/` 目录。
 
-> Chrome Web Store 暂未上架（Chrome 用户可直接安装 Edge 商店版本或用离线包）。上架所需的文案、截图与数据披露清单见
+> Chrome Web Store 暂未上架。Edge 外接程序商店只能在 Microsoft Edge 中安装，Chrome 用户请用离线包。上架所需的文案、截图与数据披露清单见
 > [docs/STORE_LISTING.md](docs/STORE_LISTING.md)。
 
 ## 使用方法
