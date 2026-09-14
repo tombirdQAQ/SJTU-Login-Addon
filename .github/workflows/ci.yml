@@ -9,6 +9,11 @@ on:
     branches:
       - main
       - develop
+    # release-readiness reads the rebuild-release label, so its result has to
+    # follow the label: `labeled` re-runs it when the label is added, and
+    # `unlabeled` re-runs it when the label is removed, which would otherwise
+    # leave a stale passing check behind on a PR that no longer qualifies.
+    types: [opened, synchronize, reopened, labeled, unlabeled]
 
 permissions:
   contents: read
