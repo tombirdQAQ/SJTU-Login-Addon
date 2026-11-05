@@ -19,6 +19,6 @@
   "devDependencies": {
     "esbuild": "0.28.1",
     "web-ext": "10.6.0",
-    "wrangler": "^4.112.0"
+    "wrangler": "^4.157.0"
   }
 }
